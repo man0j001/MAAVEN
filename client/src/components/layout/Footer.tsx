@@ -1,18 +1,35 @@
 import { Link, useLocation } from 'react-router-dom';
-import Logo from '../ui/Logo';
-import {
-  footerMarketPlace,
-  footerResource,
-  footerCompany,
-  footerSocial,
-} from 'data/layout/layoutData';
 
 export default function Footer() {
   const navigation = useLocation();
+  type FooterLink = { name: string; link: string };
+
+  const helpLinks: FooterLink[] = [
+    { name: 'FAQs', link: '#' },
+    { name: 'Contact Us', link: '#' },
+  ];
+
+  const moreLinks: FooterLink[] = [
+    { name: 'New Arrivals', link: '#' },
+    { name: 'Best Sellers', link: '#' },
+    { name: 'Men', link: '#' },
+    { name: 'Women', link: '#' },
+    { name: 'Accessories', link: '#' },
+    { name: 'Sale', link: '#' },
+  ];
+
+  const legalLinks: FooterLink[] = [
+    { name: 'Privacy Policy', link: '#' },
+    { name: 'Terms of Service', link: '#' },
+    { name: 'Sitemap', link: '#' },
+    { name: 'Accessibility', link: '#' },
+
+  ];
 
   return (
+    <>
     <footer
-      className={`mt-auto border-t border-gray-200 ${
+      className={`z-10 bg-white font-sans mt-auto border-t border-gray-200 ${
         navigation.pathname === '/login' || navigation.pathname === '/register'
           ? 'hidden'
           : 'block'
@@ -20,112 +37,146 @@ export default function Footer() {
     >
       <div className="mx-auto flex flex-col items-center ">
         {/* Top area: Blocks */}
-        <div className="grid w-full max-w-7xl gap-8 py-8 px-4 sm:grid-cols-12 sm:px-6 md:py-12">
-          {/* 1st block */}
-          <div className="sm:col-span-12 lg:col-span-6">
-            <div className="mb-2">
-              {/* Logo */}
-              <Link to="/" className="inline-block" aria-label="Cruip">
-                <Logo width="32px" />
-              </Link>
+        <div className="grid w-full max-w-7xl gap-8 py-8 p-4 sm:grid-cols-12 sm:px-6 md:py-12">
+          <div className="sm:col-span-12 lg:col-span-8 xl:col-span-9 p-4">
+            <div className="flex w-full flex-1 border-gray-200">
+              {/* Help */}
+              <ul className="flex flex-col border-gray-200 mr-4">
+                <p className="mb-4"><span className="font-semibold text-gray-800">Help</span></p>
+                <div className="from-desktop:max-w-[25rem]">
+                  <div>
+                    {helpLinks.map(({ name, link }) => (
+                      <li key={name} className="py-1.5">
+                        {link.startsWith('http') ? (
+                          <a
+                            className="text-sm text-gray-600 transition hover:text-gray-900"
+                            href={link}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            <span className="pb-[2px]">{name}</span>
+                          </a>
+                        ) : (
+                          <Link
+                            className="text-sm text-gray-600 transition hover:text-gray-900"
+                            to={link}
+                          >
+                            <span className="pb-[2px]">{name}</span>
+                          </Link>
+                        )}
+                      </li>
+                    ))}
+                  </div>
+                </div>
+              </ul>
+
+              {/* Shop */}
+              <ul className="flex flex-col border-gray-200 mr-4">
+                <p className="mb-4"><span className="font-semibold text-gray-800">Shop</span></p>
+                <div className="from-desktop:max-w-[25rem]">
+                  <div>
+                    {moreLinks.map(({ name, link }) => (
+                      <li key={name} className="py-1.5">
+                        {link.startsWith('http') ? (
+                          <a
+                            className="text-sm text-gray-600 transition hover:text-gray-900"
+                            href={link}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            <span className="pb-[2px]">{name}</span>
+                          </a>
+                        ) : (
+                          <Link
+                            className="text-m text-gray-600 transition hover:text-gray-900"
+                            to={link}
+                          >
+                            <span className="pb-[2px]">{name}</span>
+                          </Link>
+                        )}
+                      </li>
+                    ))}
+                  </div>
+                </div>
+              </ul>
+
+              {/* Address */}
+              <ul className="flex flex-col border-gray-200 mr-4">
+                <p className="mb-4 "><span className="font-semibold text-gray-800">Address</span></p>
+                <div>
+                  <div>
+                    <p className="py-1 text-gray-600 transition hover:text-gray-900">
+                      <a
+                        className="text-m"
+                        href="https://maps.app.goo.gl/NN9EpPgK8wrLLdMV9"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        13927 South Gessner Road, Missouri City Texas 77489, United States
+                      </a>
+                    </p>
+                  </div>
+                </div>
+              </ul>
             </div>
           </div>
 
-          {/* 2nd block */}
-          <div className="sm:col-span-6 md:col-span-3 lg:col-span-2 lg:ml-auto">
-            <h6 className="mb-2 font-medium text-gray-800">Marketplace</h6>
-            <ul className="text-sm">
-              {footerMarketPlace.map(({ name, link }) => (
-                <li className="mb-2" key={name}>
-                  <Link
-                    to={link}
-                    className="text-gray-600 transition duration-150 ease-in-out hover:text-gray-900"
-                  >
-                    {name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* 3rd block */}
-          <div className="sm:col-span-6 md:col-span-3 lg:col-span-2 lg:ml-auto">
-            <h6 className="mb-2 font-medium text-gray-800">Resources</h6>
-            <ul className="text-sm">
-              {footerResource.map(({ name, link }) => (
-                <li className="mb-2" key={name}>
-                  <Link
-                    target="_blank"
-                    to={link}
-                    className="text-gray-600 transition duration-150 ease-in-out hover:text-gray-900"
-                  >
-                    {name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* 4th block */}
-          <div className="sm:col-span-6 md:col-span-3 lg:col-span-2 lg:ml-auto">
-            <h6 className="mb-2 font-medium text-gray-800">Company</h6>
-            <ul className="text-sm">
-              {footerCompany.map(({ name, link }) => (
-                <li className="mb-2" key={name}>
-                  <Link
-                    to={link}
-                    target="_blank"
-                    className="text-gray-600 transition duration-150 ease-in-out hover:text-gray-900"
-                  >
-                    {name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+          {/* Promo block */}
+          <div className="sm:col-span-12 lg:col-span-4 xl:col-span-3 till-desktop:border-t border-gray-200 p-4">
+            <h3 className="font-bold text-gray-800">Premium Workout Clothes &amp; Athleisure</h3>
+            <p className="text-sm text-gray-700">
+              Experience the next level of comfort, style, and functionality with our premium athleisure collections designed for those who demand the best. Shop now!
+            </p>
           </div>
         </div>
 
+
+
         {/* Bottom area */}
-        <div className="flex w-full justify-center border-t border-gray-200  p-4 sm:px-6 md:py-8">
+        <div className="flex w-full justify-center border-y border-gray-200 p-4 sm:px-6 md:py-8">
           <div className="w-full max-w-7xl px-4 sm:px-6 md:flex md:items-center md:justify-between">
-            {/* Social links */}
-            <ul className="mb-4 flex md:order-1 md:ml-4 md:mb-0">
-              {footerSocial.map(({ path, link, name }, i) => (
-                <li key={name} className={`${i === 0 ? '' : 'ml-4'}`}>
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      window.open(link, '_blank');
-                    }}
-                    className="hover:bg-white-100 flex items-center justify-center rounded-full bg-white text-gray-600 shadow transition duration-150 ease-in-out hover:text-gray-900"
-                    aria-label={name}
-                  >
-                    <svg
-                      className="h-8 w-8 fill-current"
-                      viewBox="0 0 32 32"
-                      xmlns="http://www.w3.org/2000/svg"
+            <div className="mb-4 flex flex-wrap items-center gap-1 md:order-1 md:ml-4 md:mb-0">
+              {legalLinks.map((item, idx) => (
+                <span key={item.name} className="flex items-center">
+                  {item.link.startsWith('http') ? (
+                    <a
+                      className="px-1 text-m font-medium opacity-70 transition hover:opacity-100"
+                      href={item.link}
+                      target="_blank"
+                      rel="noreferrer"
                     >
-                      <path d={path} />
-                    </svg>
-                  </button>
-                </li>
+                      {item.name}
+                    </a>
+                  ) : (
+                    <Link
+                      className="px-1 text-m font-medium opacity-70 transition hover:opacity-100"
+                      to={item.link}
+                    >
+                      {item.name}
+                    </Link>
+                  )}
+                  {idx < legalLinks.length - 1 && (
+                    <small className="opacity-50">•</small>
+                  )}
+                </span>
               ))}
-            </ul>
-            {/* Copyrights note */}
-            <div className="mr-4 text-sm text-gray-600">
-              Made by{' '}
-              <Link
-                className="text-blue-600 hover:underline"
-                target="_blank"
-                to="https://github.com/jinpark0625?tab=repositories"
-              >
-                Jin Park
-              </Link>
-              . All rights reserved.
             </div>
+            <span className="text-sm font-semibold text-gray-800">© 2025 • E-cart • All Rights Reserved</span>
           </div>
         </div>
       </div>
     </footer>
+
+    <section className="block sticky bottom-0 z-[-1] w-full border-x border-b border-secondary/20 overflow-hidden font-sans">
+    <div className="w-full flex justify-center text-primary text-black font-bold tracking-widest text-[9rem]">
+      <h4>M</h4>
+      <h4>A</h4>
+      <h4>A</h4>
+      <h4>V</h4>
+      <h4>E</h4>
+      <h4>N</h4>
+    </div>
+  </section>
+    </>
   );
 }
