@@ -10,4 +10,23 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    // Split vendor code into long-lived cached chunks, separate from app code.
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes("node_modules")) {
+            if (
+              /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom|scheduler)[\\/]/.test(
+                id
+              )
+            ) {
+              return "react-vendor"
+            }
+            return "vendor"
+          }
+        },
+      },
+    },
+  },
 })

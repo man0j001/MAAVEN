@@ -32,7 +32,7 @@ export function NewArrival() {
       <CarouselContent className="-ml-1">
       {/* Removed loading check since we're using dummy data */}
       {products.map( (product,index) =>
-      <CarouselItem key={index} className="pl-1 md:basis-1/2 lg:basis-1/3">
+      <CarouselItem key={index} className="pl-1 md:basis-1/2 lg:basis-1/4">
       <div className="p-1">
       <ProductCard  key={product.id} productInfo={product}/>
       </div>

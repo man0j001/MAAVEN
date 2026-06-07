@@ -28,5 +28,10 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": ["src"],
+  "exclude": [
+    "src/components/layout/MenuDesktop.tsx",
+    "src/components/layout/MenuMobile.tsx",
+    "src/components/ui/Logo.tsx"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -21,7 +21,7 @@ function ProductDetails() {
   useEffect(() => {
     // Using dummy data instead of API
     setProducts(dummyProducts);
-    
+
     // Commented out API data handling
     // if (data) {
     //   setProducts(data.allProducts);
@@ -29,8 +29,8 @@ function ProductDetails() {
   }, []);
 
   // Find the specific product by ID, or use the first one as fallback
-  let product = id ? products.find(p => p.id === id) : products[0];
-  const Allsizes: string[] = ["XS", "S", "M", "L", "XL"];
+  const product = id ? products.find(p => p.id === id) : products[0];
+  const Allsizes: string[] = ["XXS", "XS", "S", "M", "L", "XL", "XXL", "XXXL"];
 
   return (
     <>
@@ -40,28 +40,45 @@ function ProductDetails() {
           <div className="mt-6 col-span-3 sticky top-[165px]">
             {/* accordian */}
             <div>
-              <h3 className="font-monument text-lg text-slate-800 font-extrabold uppercase">
+              <h3 className="font-monument text-lg text-slate-800 dark:text-neutral-100 font-extrabold uppercase">
                 {product.productName}
               </h3>
-              <p className="font-bold">Color</p>
+              {product.type && (
+                <p className="text-sm text-gray-500 dark:text-neutral-400 font-bold">{product.type}</p>
+              )}
+              <p className="font-bold">
+                Color{product.images[0]?.color ? `: ${product.images[0].color}` : ""}
+              </p>
               <br></br>
               <p className="font-bold">${product.price}</p>
             </div>
             <Accordion type="single" defaultValue="item-2" className="w-full">
+              {product.details?.highlights && (
+                <AccordionItem value="item-0">
+                  <AccordionTrigger>Highlights</AccordionTrigger>
+                  <AccordionContent>
+                    <p>{product.details.highlights}</p>
+                  </AccordionContent>
+                </AccordionItem>
+              )}
               <AccordionItem value="item-1">
                 <AccordionTrigger> Fit suggestion</AccordionTrigger>
                 <AccordionContent>
-                  <ul className="list-disc">
-                    <li>This item runs true to Alphalete’s relaxed fit.</li>
-                    <li>
-                      Model is 5’11”/180.3cm, wearing a size L with a
-                      47”/119.4cm chest.
-                    </li>
-                    <li>
-                      Model is 5'6"/167.6cm, wearing a size S with 36.5"/92.7cm
-                      bust.{" "}
-                    </li>
-                  </ul>
+                  {product.details?.fitSuggestion ? (
+                    <p>{product.details.fitSuggestion}</p>
+                  ) : (
+                    <ul className="list-disc">
+                      <li>This item runs true to Alphalete’s relaxed fit.</li>
+                      <li>
+                        Model is 5’11”/180.3cm, wearing a size L with a
+                        47”/119.4cm chest.
+                      </li>
+                      <li>
+                        Model is 5'6"/167.6cm, wearing a size S with 36.5"/92.7cm
+                        bust.{" "}
+                      </li>
+                    </ul>
+                  )}
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-2">
@@ -69,23 +86,24 @@ function ProductDetails() {
                   Materials and washing directions
                 </AccordionTrigger>
                 <AccordionContent>
-                  <ul>
-                    <li>62% Polyester, 38% Cotton</li>
-                    <li>We recommend washing inside-out on a cold setting</li>
-                    <li>Hang to dry</li>
-                    <li>Anticipate shrinkage will occur after initial wash</li>
-                  </ul>
+                  {product.details?.materials ? (
+                    <p>{product.details.materials}</p>
+                  ) : (
+                    <ul>
+                      <li>62% Polyester, 38% Cotton</li>
+                      <li>We recommend washing inside-out on a cold setting</li>
+                      <li>Hang to dry</li>
+                      <li>Anticipate shrinkage will occur after initial wash</li>
+                    </ul>
+                  )}
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-3">
                 <AccordionTrigger>Description</AccordionTrigger>
                 <AccordionContent>
                   <p>
-                    Our latest delivery is an exploration in form, function and
-                    color, built to fit the needs of the modern fitness
-                    enthusiast. Our classic hoodie is constructed from a
-                    cotton/polyester blend which offers plenty of softness to
-                    provide comfort and allow for movement without restriction.
+                    {product.details?.description ??
+                      "Our latest delivery is an exploration in form, function and color, built to fit the needs of the modern fitness enthusiast. Our classic hoodie is constructed from a cotton/polyester blend which offers plenty of softness to provide comfort and allow for movement without restriction."}
                   </p>
                 </AccordionContent>
               </AccordionItem>
@@ -93,10 +111,14 @@ function ProductDetails() {
           </div>
           {/* image */}
           <div className="col-span-6 w-100 mx-4">
-            {product.images.map((image) => (
+            {product.images.map((image, index) => (
               <img
+                key={index}
                 className="rounded-3xl mb-6 w-full"
                 src={image.image}
+                alt={`${product.productName} — ${image.color}`}
+                loading="lazy"
+                decoding="async"
               />
             ))}
           </div>
@@ -104,14 +126,14 @@ function ProductDetails() {
           <div className="mt-6 col-span-3 sticky top-[165px]">
             {/* select image */}
             <div className="">
-            <div className="w-ful rounded-lg flex justify-center w-full bg-slate-300 bg-opacity-60 backdrop-filter backdrop-blur-lg border overflow-x-hidden">
-          {product.images.map((image,index) =><div key={index}><img className="rounded-lg p-1" width={70} height={70} src={image.image} /></div> )}
+            <div className="w-ful rounded-lg flex justify-center w-full bg-slate-300 dark:bg-neutral-800 bg-opacity-60 backdrop-filter backdrop-blur-lg border dark:border-neutral-700 overflow-x-hidden">
+          {product.images.map((image,index) =><div key={index}><img className="rounded-lg p-1" width={70} height={70} src={image.image} alt={`${product.productName} — ${image.color}`} loading="lazy" decoding="async" /></div> )}
         </div>
             </div>
             {/* select size */}
             <div>
               <p className="font-bold">Select Size</p>
-              <div className="grid grid-cols-5 gap-2 px-1 py-3">
+              <div className="grid grid-cols-4 gap-2 px-1 py-3">
                 {Allsizes.map((allsize) => {
                   const matchingSize = product.sizes.find(
                     (size) => size.name === allsize
@@ -120,7 +142,7 @@ function ProductDetails() {
                     return (
                       <button
                         key={matchingSize.name}
-                        className="font-enter font-bold text-lg bg-inherit hover:bg-slate-300 rounded-sm  p-1 border border-gray-400"
+                        className="font-enter font-bold text-lg bg-inherit hover:bg-slate-300 dark:hover:bg-neutral-700 rounded-sm  p-1 border border-gray-400 dark:border-neutral-600"
                       >
                         {matchingSize.name}
                       </button>
@@ -129,7 +151,7 @@ function ProductDetails() {
                     return (
                       <button
                         key={allsize}
-                        className="text-gray-700 font-enter font-bold text-lg bg-inherit rounded-sm  rounded-sm  p-1 border border-gray-400"
+                        className="text-gray-700 dark:text-neutral-500 font-enter font-bold text-lg bg-inherit rounded-sm  rounded-sm  p-1 border border-gray-400 dark:border-neutral-700"
                         disabled
                       >
                         <del>{allsize}</del>
